@@ -1,0 +1,17 @@
+image:
+  repository: redis
+  tag: "8.2.0"
+  pullPolicy: IfNotPresent
+
+storage:
+  size: 1Gi
+
+env: []
+
+configMap:
+  enabled: false
+
+envFrom:
+  enabled: false
+  configMapRef: ""
+  secretRef: ""

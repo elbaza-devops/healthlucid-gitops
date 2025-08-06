@@ -1,0 +1,38 @@
+statefulset:
+  enabled: true
+
+replicas: 1
+
+image:
+  repository: redis
+  tag: "7.0.12"
+  pullPolicy: IfNotPresent
+
+containerPort: 6379
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 6379
+  targetPort: 6379
+
+deployment:
+  enabled: false
+
+serviceaccount:
+  enabled: false
+
+destinationRule:
+  enabled: true
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+
+# Enable mTLS for this workload
+peerAuthentication:
+  enabled: false
+  # mtlsMode: STRICT
+  # portLevelMtlsEnabled: true
+  # portLevelMtls:
+  #   5050:
+  #     mode: STRICT
