@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/healthluciddev/gitops.git
+    repoURL: https://github.com/elbaza-devops/healthlucid-gitops.git
     targetRevision: HEAD
     path: namespaces
   destination:

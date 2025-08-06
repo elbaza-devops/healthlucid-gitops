@@ -8,7 +8,7 @@ spec:
   goTemplateOptions: ["missingkey=error"]
   generators:
     - git:
-        repoURL: https://github.com/healthluciddev/gitops.git
+        repoURL: https://github.com/elbaza-devops/healthlucid-gitops.git
         revision: HEAD
         directories:
           - path: configs/* # this will create variables with all the paths under /configs directory (eg all microservices configs dirs)
@@ -24,7 +24,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: https://github.com/healthluciddev/gitops.git
+        repoURL: https://github.com/elbaza-devops/healthlucid-gitops.git
         targetRevision: HEAD
         path: helm-chart
         helm:
@@ -41,6 +41,3 @@ spec:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-          # - ApplyOutOfSyncOnly=true
-          # - Validate=true
-          # - ServerSideApply=true
