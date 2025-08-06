@@ -2,13 +2,16 @@ replicas: 1
 image:
   repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/dev/ai-server
   tag: dev-e73bb58
+
 env: []
+
 configMap:
   enabled: true
   data:
     BE_SERVER: http://be-server.dev.svc.cluster.local:8080
     REDIS_HOST: redis-master
     REDIS_PORT: '6379'
+    
 envFrom:
   enabled: true
   configMapRef: "ai-server-cm"

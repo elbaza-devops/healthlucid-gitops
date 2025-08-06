@@ -1,9 +1,4 @@
-replicas: 2
-
-image:
-  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/dev/be-server
-  tag: "v1.0.3-dev"
-  pullPolicy: IfNotPresent
+replicas: 1
 
 deployment:
   enabled: true
@@ -21,24 +16,6 @@ statefulset:
   enabled: false
 
 containerPort: 8080
-
-# No custom env vars by default
-env: []
-
-# Only include this if you want to override CMD args:
-args:
-  - "-Drealm=dev"
-  - "-Dorg.eclipse.jetty.server.Request.maxFormContentsSize=20000000"
-  - "-jar"
-  - "/usr/local/jetty/start.jar"
-
-configMap:
-  enabled: false
-
-envFrom:
-  enabled: false
-  configMapRef: ""
-  secretRef: ""
 
 # Probes configuration
 probes:
@@ -59,13 +36,6 @@ probes:
     periodSeconds: 5
     timeoutSeconds: 3
     failureThreshold: 3
-
-# Istio traffic rules disabled by default
-virtualService:
-  enabled: false
-  hosts: []
-  gateways: []
-  http: []
 
 destinationRule:
   enabled: true
