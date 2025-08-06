@@ -22,7 +22,9 @@ statefulset:
 
 containerPort: 5050
 
-env: []
+env:
+  - name: DEBUG_ENABLED
+    value: "true"
 
 configMap:
   enabled: true
