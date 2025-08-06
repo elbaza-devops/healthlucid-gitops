@@ -1,0 +1,33 @@
+replicas: 1
+
+image:
+  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/prod/ai-server
+  tag: v1.0.0
+
+env: []
+
+configMap:
+  enabled: true
+  data:
+    BE_SERVER: "http://be-server.prod.svc.cluster.local:8080"
+    REDIS_HOST: "redis-master"
+    REDIS_PORT: "6379"
+
+envFrom:
+  enabled: true
+  configMapRef: "ai-server-cm"
+  secretRef: ""
+
+# Enable Istio VirtualService
+virtualService:
+  enabled: true
+  hosts:
+    - ai-server.healthlucid.com
+  gateways:
+    - hl-gateway
+  http:
+    - matchUriPrefix: /
+      routePort: 5050
+
+
+

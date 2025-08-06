@@ -1,0 +1,48 @@
+# Default values for microservice chart.
+
+replicas: 1
+
+image:
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+  pullSecret: ""
+
+# Kubernetes Service
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 80
+
+# Container port
+containerPort: 80
+
+# Environment variables
+env:
+  # - name: KEY
+  #   value: "value"
+
+envFrom:
+  enabled: false
+  configMapRef: ""
+  secretRef: ""
+
+# Istio VirtualService
+virtualService:
+  enabled: false
+  hosts: []
+  gateways: []
+  http:
+    - matchUriPrefix: /
+      routePort: 80
+
+# Istio DestinationRule
+destinationRule:
+  enabled: false
+  host: ""
+  trafficPolicy: {}
+
+# Istio PeerAuthentication (mTLS)
+peerAuthentication:
+  enabled: false
+  mtlsMode: STRICT

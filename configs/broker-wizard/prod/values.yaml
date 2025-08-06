@@ -1,0 +1,31 @@
+replicas: 1
+
+image:
+  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/prod/broker-wizard
+  tag: "v1.0.2-dev"
+
+env: []
+
+configMap:
+  enabled: true
+  data:
+    NODE_ENV: "production"
+    BE_SERVER: "http://be-server.prod.svc.cluster.local:8080"
+    REDIS_HOST: "redis-master"
+    REDIS_PORT: "6379"
+
+envFrom:
+  enabled: true
+  configMapRef: "broker-wizard-cm"
+  secretRef: ""
+
+# Enable Istio VirtualService
+virtualService:
+  enabled: true
+  hosts:
+    - wizard.healthlucid.com
+  gateways:
+    - hl-gateway
+  http:
+    - matchUriPrefix: /
+      routePort: 4444

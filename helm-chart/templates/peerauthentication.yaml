@@ -1,0 +1,18 @@
+{{- if .Values.peerAuthentication.enabled }}
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: {{ include "microservice.fullname" . }}-pa
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "microservice.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "microservice.labels" . | nindent 6 }}
+  mtls:
+    mode: {{ .Values.peerAuthentication.mtlsMode }}
+{{- if .Values.peerAuthentication.portLevelMtlsEnabled }}
+  portLevelMtls: {{ toYaml .Values.peerAuthentication.portLevelMtls | nindent 4 }}
+{{- end }}
+{{- end }}

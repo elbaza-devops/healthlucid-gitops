@@ -1,0 +1,20 @@
+replicas: 1
+
+image:
+  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/staging/be-server
+  tag: "v1.0.3-dev"
+
+# No custom env vars by default
+env: []
+
+# Only include this if you want to override CMD args:
+args:
+  - "-Drealm=stage"
+  - "-Dorg.eclipse.jetty.server.Request.maxFormContentsSize=20000000"
+  - "-jar"
+  - "/usr/local/jetty/start.jar"
+
+envFrom:
+  enabled: false
+  configMapRef: ""
+  secretRef: ""

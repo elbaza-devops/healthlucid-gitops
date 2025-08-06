@@ -1,0 +1,26 @@
+replicas: 1
+image:
+  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/dev/benefit-max
+  tag: dev-52d8a34
+env: []
+configMap:
+  enabled: true
+  data:
+    NODE_ENV: development
+    BE_SERVER: http://be-server.dev.svc.cluster.local:8080
+    AI_SERVER: http://ai-server.dev.svc.cluster.local:5050
+    REDIS_HOST: redis-master
+    REDIS_PORT: '6379'
+envFrom:
+  enabled: true
+  configMapRef: benefit-max-cm
+  secretRef: ''
+virtualService:
+  enabled: true
+  hosts:
+  - agents-dev.healthlucid.com
+  gateways:
+  - hl-gateway
+  http:
+  - matchUriPrefix: /
+    routePort: 4004

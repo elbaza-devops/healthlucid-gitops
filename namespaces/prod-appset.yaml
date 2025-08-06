@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: prod-appset
+  namespace: argocd # here we define the namesapce that the ApplicationSet Manifest will be deployed on.
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+    - git:
+        repoURL: https://github.com/healthluciddev/gitops.git
+        revision: HEAD
+        directories:
+          - path: configs/* # this will create variables with all the paths under /configs directory (eg all microservices configs dirs)
+  template:
+    metadata:
+      namespace: argocd
+      name: "{{.path.basename}}-prod" # Name displayed in ArgoCD UI (Application name)
+      annotations:
+        argocd.argoproj.io/manifest-generate-paths: "/configs/{{.path.basename}}/prod"
+        argocd.argoproj.io/sync-options: Prune=true
+      finalizers:
+        - resources-finalizer.argocd.argoproj.io
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/healthluciddev/gitops.git
+        targetRevision: HEAD
+        path: helm-chart
+        helm:
+          releaseName: "{{.path.basename}}"
+          valueFiles:
+            - ../configs/{{.path.basename}}/values.yaml
+            - ../configs/{{.path.basename}}/prod/values.yaml
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: prod
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: false
+        syncOptions:
+          - CreateNamespace=true
+          # - ApplyOutOfSyncOnly=true
+          # - Validate=true
+          # - ServerSideApply=true

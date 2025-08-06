@@ -1,0 +1,30 @@
+replicas: 1
+
+image:
+  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/staging/benefit-buddy
+  tag: "v1.0.2-dev"
+
+env: []
+
+configMap:
+  enabled: true
+  data:
+    NODE_ENV: "production"
+    BE_SERVER: "http://be-server.staging.svc.cluster.local:8080"
+    AI_SERVER: "http://ai-server.staging.svc.cluster.local:5050"
+
+envFrom:
+  enabled: true
+  configMapRef: "benefit-buddy-cm"
+  secretRef: ""
+
+# Enable Istio VirtualService
+virtualService:
+  enabled: true
+  hosts:
+    - buddy-staging.healthlucid.com
+  gateways:
+    - hl-gateway
+  http:
+    - matchUriPrefix: /
+      routePort: 4040

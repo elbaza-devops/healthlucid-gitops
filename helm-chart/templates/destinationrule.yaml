@@ -1,0 +1,13 @@
+{{- if .Values.destinationRule.enabled }}
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: {{ include "microservice.fullname" . }}-dr
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "microservice.labels" . | nindent 4 }}
+spec:
+  host: "{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local"
+  trafficPolicy:
+    {{- toYaml .Values.destinationRule.trafficPolicy | nindent 4 }}
+{{- end }}

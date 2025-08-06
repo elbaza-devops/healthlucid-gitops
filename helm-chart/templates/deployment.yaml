@@ -1,0 +1,68 @@
+{{- if .Values.deployment.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "microservice.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "microservice.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "microservice.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "microservice.fullname" . }}
+    spec:
+      serviceAccountName: {{ include "microservice.fullname" . }}-sa
+      containers:
+        - name: {{ .Release.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.args }}
+          args:
+{{ toYaml .Values.args | nindent 12 }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+
+          {{- if .Values.probes.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probes.livenessProbe.path }}
+              port: {{ .Values.probes.livenessProbe.port }}
+            initialDelaySeconds: {{ .Values.probes.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.livenessProbe.failureThreshold }}
+          {{- end }}
+
+          {{- if .Values.probes.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probes.readinessProbe.path }}
+              port: {{ .Values.probes.readinessProbe.port }}
+            initialDelaySeconds: {{ .Values.probes.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.probes.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.probes.readinessProbe.failureThreshold }}
+          {{- end }}
+
+          {{- if .Values.env }}
+          env:
+            {{- toYaml .Values.env | nindent 12 }}
+          {{- end }}
+          {{- if .Values.envFrom.enabled }}
+          envFrom:
+            {{- if .Values.envFrom.configMapRef }}
+            - configMapRef:
+                name: {{ .Values.envFrom.configMapRef }}
+            {{- end }}
+            {{- if .Values.envFrom.secretRef }}
+            - secretRef:
+                name: {{ .Values.envFrom.secretRef }}
+            {{- end }}
+          {{- end }}
+{{- end }}

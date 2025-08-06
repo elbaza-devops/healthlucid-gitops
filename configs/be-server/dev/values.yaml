@@ -1,0 +1,14 @@
+replicas: 1
+image:
+  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/dev/be-server
+  tag: dev-23a8b5f
+env: []
+args:
+- -Drealm=dev
+- -Dorg.eclipse.jetty.server.Request.maxFormContentsSize=20000000
+- -jar
+- /usr/local/jetty/start.jar
+envFrom:
+  enabled: false
+  configMapRef: ''
+  secretRef: ''

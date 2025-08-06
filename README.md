@@ -1,1 +1,1 @@
-# healthlucid-gitops
+# gitops

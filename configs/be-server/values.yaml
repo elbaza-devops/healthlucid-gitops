@@ -1,0 +1,84 @@
+replicas: 2
+
+image:
+  repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/dev/be-server
+  tag: "v1.0.3-dev"
+  pullPolicy: IfNotPresent
+
+deployment:
+  enabled: true
+
+serviceaccount:
+  enabled: true
+
+service:
+  enabled: true
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+
+statefulset:
+  enabled: false
+
+containerPort: 8080
+
+# No custom env vars by default
+env: []
+
+# Only include this if you want to override CMD args:
+args:
+  - "-Drealm=dev"
+  - "-Dorg.eclipse.jetty.server.Request.maxFormContentsSize=20000000"
+  - "-jar"
+  - "/usr/local/jetty/start.jar"
+
+configMap:
+  enabled: false
+
+envFrom:
+  enabled: false
+  configMapRef: ""
+  secretRef: ""
+
+# Probes configuration
+probes:
+  livenessProbe:
+    enabled: true
+    path: /xlucid-services/v1/heartbeat.json
+    port: 8080
+    initialDelaySeconds: 30
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+
+  readinessProbe:
+    enabled: true
+    path: /xlucid-services/v1/heartbeat.json
+    port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
+
+# Istio traffic rules disabled by default
+virtualService:
+  enabled: false
+  hosts: []
+  gateways: []
+  http: []
+
+destinationRule:
+  enabled: true
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+
+# Enable mTLS for this workload
+peerAuthentication:
+  enabled: true
+  mtlsMode: STRICT
+  portLevelMtlsEnabled: true
+  portLevelMtls:
+    8080:
+      mode: STRICT
+
