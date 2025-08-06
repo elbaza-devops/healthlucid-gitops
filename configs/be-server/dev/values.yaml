@@ -2,7 +2,7 @@ replicas: 1
 
 image:
   repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/dev/be-server
-  tag: dev-23a8b5f
+  tag: dev-23a8b5ffdfdfdf
 
 args:
 - -Drealm=dev

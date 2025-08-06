@@ -1,7 +1,8 @@
 replicas: 1
+
 image:
   repository: 180942010314.dkr.ecr.us-east-1.amazonaws.com/dev/ai-server
-  tag: dev-e73bb58
+  tag: dev-e73bb58977
 
 env: []
 
