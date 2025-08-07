@@ -10,8 +10,8 @@ configMap:
   enabled: true
   data:
     BE_SERVER: "http://be-server.prod.svc.cluster.local:8080"
-    REDIS_HOST: "redis-master"
-    REDIS_PORT: "6379"
+    REDIS_HOST: "redis"
+    REDIS_PORT: '6379'
 
 envFrom:
   enabled: true

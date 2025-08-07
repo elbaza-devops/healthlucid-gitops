@@ -10,7 +10,7 @@ configMap:
   enabled: true
   data:
     BE_SERVER: http://be-server.dev.svc.cluster.local:8080
-    REDIS_HOST: redis
+    REDIS_HOST: "redis"
     REDIS_PORT: '6379'
     
 envFrom:

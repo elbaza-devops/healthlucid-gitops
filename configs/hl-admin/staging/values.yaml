@@ -11,8 +11,8 @@ configMap:
   data:
     NODE_ENV: "production"
     BE_SERVER: "http://be-server.staging.svc.cluster.local:8080"
-    REDIS_HOST: "redis-master"
-    REDIS_PORT: "6379"
+    REDIS_HOST: "redis"
+    REDIS_PORT: '6379'
 
 envFrom:
   enabled: true

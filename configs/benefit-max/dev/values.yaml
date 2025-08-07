@@ -11,7 +11,7 @@ configMap:
     NODE_ENV: development
     BE_SERVER: http://be-server.dev.svc.cluster.local:8080
     AI_SERVER: http://ai-server.dev.svc.cluster.local:5050
-    REDIS_HOST: redis-master
+    REDIS_HOST: "redis"
     REDIS_PORT: '6379'
 
 envFrom:
