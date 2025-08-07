@@ -50,5 +50,5 @@ peerAuthentication:
   mtlsMode: STRICT
   portLevelMtlsEnabled: true
   portLevelMtls:
-    5050:
+    5051:
       mode: STRICT
