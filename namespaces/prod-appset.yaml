@@ -17,7 +17,7 @@ spec:
       namespace: argocd
       name: "{{.path.basename}}-prod" # Name displayed in ArgoCD UI (Application name)
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: "/configs/{{.path.basename}}/prod"
+        # argocd.argoproj.io/manifest-generate-paths: "/configs/{{.path.basename}}/prod"
         argocd.argoproj.io/sync-options: Prune=true
       finalizers:
         - resources-finalizer.argocd.argoproj.io

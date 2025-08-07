@@ -17,7 +17,7 @@ spec:
       name: "{{.path.basename}}-staging" # Name displayed in ArgoCD UI (Application name)
       namespace: argocd
       annotations:
-        argocd.argoproj.io/manifest-generate-paths: "/configs/{{.path.basename}}/staging"
+        # argocd.argoproj.io/manifest-generate-paths: "/configs/{{.path.basename}}/staging"
         argocd.argoproj.io/sync-options: Prune=true
       finalizers:
         - resources-finalizer.argocd.argoproj.io
