@@ -17,6 +17,7 @@ statefulset:
 
 containerPort: 5050
 
+
 # Probes configuration
 probes:
   livenessProbe:
@@ -50,5 +51,5 @@ peerAuthentication:
   mtlsMode: STRICT
   portLevelMtlsEnabled: true
   portLevelMtls:
-    5061:
+    5050:
       mode: STRICT
